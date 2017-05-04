@@ -111,6 +111,10 @@ public class Simulation {
 
     //TODO
     private int generateArrivalTime(int latestPossArrival){
+
+
+
+
         return 1;
     }
 
@@ -119,13 +123,56 @@ public class Simulation {
         return 50;
     }
 
-    //TODO
+    // It checks which line has lowest number of people
     private int pickLine(){
-        return 1;
+
+        int minPerson = lines.get(0).size(); // get number of people in  line 0.
+        int lineNumber = 0;
+
+        for(int i = 1; i < lines.size(); i++){  // start from line 1.
+            int numPerson = lines.get(i).size();
+            if(numPerson < minPerson)
+            {
+                minPerson = numPerson;
+                lineNumber = i;
+            }
+        }
+
+        return lineNumber;
     }
 
-    //TODO
+    //Sorting the list in order from low to high
     private void sort(ArrayList<Integer> list){
+
+        /**
+        public static int[] doInsertionSort(int[] input){
+
+            int temp;
+            for (int i = 1; i < input.length; i++) {
+                for(int j = i ; j > 0 ; j--){
+                    if(input[j] < input[j-1]){
+                        temp = input[j];
+                        input[j] = input[j-1];
+                        input[j-1] = temp;
+                    }
+                }
+            }
+            return input;
+            - See more at: http://www.java2novice.com/java-sorting-algorithms/insertion-sort/#sthash.WLdqymYk.dpuf
+
+        **/
+
+        int temp;
+        for (int i = 1; i < list.size(); i++) {
+            for(int j = i ; j > 0 ; j--){
+                if(list[j] < list[j-1]){
+                    temp = list[j];
+                    list[j] = list[j-1];
+                    list[j-1] = temp;
+                }
+            }
+        }
+        return list;
 
     }
 

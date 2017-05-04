@@ -1,7 +1,8 @@
 package Line;
 
+import java.util.*;
 import java.util.LinkedList;
-import java.util.Queue;
+//import java.util.Queue;
 
 /**
  * Created by Jay on 5/3/2017.
