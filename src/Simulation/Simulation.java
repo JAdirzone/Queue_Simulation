@@ -10,6 +10,7 @@ import java.util.List;
  * Created by Jay on 5/3/2017.
  */
 public class Simulation {
+    private int totalTime;
     private int currentSecond;
     private List<Event> eventList;
     private List<Line> lines;
@@ -21,7 +22,8 @@ public class Simulation {
 
     private List<Integer> waitTimes;
 
-    public Simulation(int numLines, List<Integer> arrivalTimes){
+    public Simulation(int numLines, int numArrivals, int latestPossArrival){
+        //this.totalTime = totalTime;
         this.currentSecond = 0;
         this.eventList = new ArrayList<>();
         this.lines = new ArrayList<>();
@@ -32,8 +34,8 @@ public class Simulation {
 
         this.waitTimes = new ArrayList<>();
 
+        ArrayList<Integer> arrivalTimes = generateArrivalTimes(numArrivals, latestPossArrival);
         //TODO Sort the arrivalTimes
-
         for(int arrivalTime : arrivalTimes){
             eventList.add(new Event(arrivalTime, 0));
         }
@@ -103,7 +105,46 @@ public class Simulation {
         eventList.add(new Event(lines.get(lineNum - 1).peek().getServiceTime() + currentSecond, lineNum));
     }
 
+    //TODO
+    private ArrayList<Integer> generateArrivalTimes(int numArrivals, int latestPossArrival){
+        return new ArrayList<Integer>();
+    }
 
 
+    public int getTimeSomeoneWaiting(){
+        return timeSomeoneWaiting;
+    }
+
+    public int getTimeCashierWaiting() {
+        return timeCashierWaiting;
+    }
+
+    public int getTimeBackedUp() {
+        return timeBackedUp;
+    }
+
+    public int getPercentCustWaiting(){
+        return timeSomeoneWaiting / (totalTime * lines.size());
+    }
+
+    public int getCashierWaiting(){
+        return timeCashierWaiting / (totalTime * lines.size());
+    }
+
+    public int getCumulativeWaitTime(){
+        return cumulativeWaitTime;
+    }
+
+    public int getPercentTimeBackedUp(){
+        return timeBackedUp / (totalTime + lines.size());
+    }
+
+    public int getAverageWaitTime(){
+        int result = 0;
+        for(int waitTime : waitTimes){
+            result += waitTime;
+        }
+        return result / waitTimes.size();
+    }
 
 }
