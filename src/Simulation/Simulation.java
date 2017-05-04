@@ -6,6 +6,8 @@ import Line.Customer;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.util.Random;
+
 /**
  * Created by Jay on 5/3/2017.
  */
@@ -109,13 +111,20 @@ public class Simulation {
         return result;
     }
 
-    //TODO
+    //Generating a number within 1 and latestPossArrival
     private int generateArrivalTime(int latestPossArrival){
 
+    /**
+        import java.util.Random;
+        Random rand = new Random();
+        int  n = rand.nextInt(50) + 1;
+        //50 is the maximum and the 1 is our minimum
+    **/
 
+    Random rand = new Random();
+    int n = rand.nextInt(latestPossArrival);
 
-
-        return 1;
+        return n;
     }
 
     //TODO
@@ -123,7 +132,7 @@ public class Simulation {
         return 50;
     }
 
-    // It checks which line has lowest number of people
+    // Checking which line has lowest number of people
     private int pickLine(){
 
         int minPerson = lines.get(0).size(); // get number of people in  line 0.
@@ -141,12 +150,11 @@ public class Simulation {
         return lineNumber;
     }
 
-    //Sorting the list in order from low to high
+    // Sorting the list in order from low to high
     private void sort(ArrayList<Integer> list){
 
         /**
         public static int[] doInsertionSort(int[] input){
-
             int temp;
             for (int i = 1; i < input.length; i++) {
                 for(int j = i ; j > 0 ; j--){
@@ -158,8 +166,6 @@ public class Simulation {
                 }
             }
             return input;
-            - See more at: http://www.java2novice.com/java-sorting-algorithms/insertion-sort/#sthash.WLdqymYk.dpuf
-
         **/
 
         int temp;
