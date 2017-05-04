@@ -176,9 +176,34 @@ public class Simulation {
 
     }
 
-    //TODO
     private void insertEvent(Event event){
+        eventList.add(getInsertionIndex(event.getTime()), event);
+    }
 
+    private int getInsertionIndex(int eventTime){
+        return getInsertionIndex(eventTime, 0, eventList.size() - 1);
+    }
+
+    //TODO need to test.
+    private int getInsertionIndex(int eventTime, int startIndex, int endIndex){
+        //base cases
+        if(startIndex == endIndex) {//The size of the part being looked at is one
+            if(eventTime <= eventList.get(startIndex).getTime()){
+                return startIndex;
+            }
+            return startIndex + 1;
+        }
+        int halfSize = (endIndex - startIndex + 1) / 2;
+        int secondCheck = startIndex + halfSize;
+        int firstCheck = secondCheck - 1;
+        if(eventTime >= eventList.get(firstCheck).getTime() && eventTime <= eventList.get(secondCheck).getTime()){
+            return secondCheck;
+        }
+        //recursive calls here
+        if(eventTime < firstCheck) {
+            return getInsertionIndex(eventTime, startIndex, firstCheck);
+        }
+        return getInsertionIndex(eventTime, secondCheck, endIndex);
     }
 
     public int getTimeSomeoneWaiting(){
