@@ -127,7 +127,7 @@ public class Simulation {
         return n;
     }
 
-    //TODO
+    //Generating service time
     private int generateServiceTime(){
         return 50;
     }
