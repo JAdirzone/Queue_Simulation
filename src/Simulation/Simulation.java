@@ -101,9 +101,17 @@ public class Simulation {
         insertEvent(new Event(lines.get(lineNum - 1).peek().getServiceTime() + currentSecond, lineNum));
     }
 
-    //TODO
     private ArrayList<Integer> generateArrivalTimes(int numArrivals, int latestPossArrival){
-        return new ArrayList<Integer>();
+        ArrayList<Integer> result = new ArrayList<Integer>(numArrivals);
+        for(int i = 0; i < numArrivals; i++){
+            generateArrivalTime(latestPossArrival);
+        }
+        return result;
+    }
+
+    //TODO
+    private int generateArrivalTime(int latestPossArrival){
+        return 1;
     }
 
     //TODO
