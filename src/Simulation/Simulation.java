@@ -35,7 +35,7 @@ public class Simulation {
         this.waitTimes = new ArrayList<>();
 
         ArrayList<Integer> arrivalTimes = generateArrivalTimes(numArrivals, latestPossArrival);
-        //TODO Sort the arrivalTimes
+        sort(arrivalTimes);
         for(int arrivalTime : arrivalTimes){
             eventList.add(new Event(arrivalTime, 0));
         }
@@ -76,11 +76,8 @@ public class Simulation {
 
         currentSecond = nextEvent.getTime();
         if(nextEvent.getType() == 0){//event is an arrival
-            //TODO pick which line to put a new customer in, and put that line num into this variable. For now, its 1.
-            //targetLine lowest possible value is 1, not 0.
-            int targetLine = 1;
-            //TODO generate the service time randomly. For now it is 50.
-            lines.get(targetLine).putInLine(new Customer(currentSecond, 50));
+            int targetLine = pickLine();
+            lines.get(targetLine).putInLine(new Customer(currentSecond, generateServiceTime()));
             if(lines.get(targetLine).size() == 1){//The line was empty.
                 newFront(targetLine);
             }
@@ -101,8 +98,7 @@ public class Simulation {
      * @param lineNum
      */
     private void newFront(int lineNum){
-        //TODO this shouldn't just be added, but added in the correct position to maintain order.
-        eventList.add(new Event(lines.get(lineNum - 1).peek().getServiceTime() + currentSecond, lineNum));
+        insertEvent(new Event(lines.get(lineNum - 1).peek().getServiceTime() + currentSecond, lineNum));
     }
 
     //TODO
@@ -110,6 +106,25 @@ public class Simulation {
         return new ArrayList<Integer>();
     }
 
+    //TODO
+    private int generateServiceTime(){
+        return 50;
+    }
+
+    //TODO
+    private int pickLine(){
+        return 1;
+    }
+
+    //TODO
+    private void sort(ArrayList<Integer> list){
+
+    }
+
+    //TODO
+    private void insertEvent(Event event){
+
+    }
 
     public int getTimeSomeoneWaiting(){
         return timeSomeoneWaiting;
