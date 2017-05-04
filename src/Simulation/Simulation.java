@@ -41,17 +41,18 @@ public class Simulation {
         for(int arrivalTime : arrivalTimes){
             eventList.add(new Event(arrivalTime, 0));
         }
+        eventList.add(new Event(latestPossArrival, -1));//Terminating event
         for(int i = 0; i < numLines; i++){
             lines.add(new Line());
         }
 
     }
 
-    public boolean finished(){
-        return eventList.isEmpty();
-    }
+    //public boolean finished(){
+    //    return eventList.isEmpty();
+    //}
 
-    public void processNextEvent(){
+    public boolean processNextEvent(){
         Event nextEvent = eventList.get(0);
         //Record analysis here
         for(Line line : lines){
@@ -77,6 +78,9 @@ public class Simulation {
 
 
         currentSecond = nextEvent.getTime();
+        if(nextEvent.getType() == -1){//event is the end of the simulation.
+            return false;
+        }
         if(nextEvent.getType() == 0){//event is an arrival
             int targetLine = pickLine();
             lines.get(targetLine).putInLine(new Customer(currentSecond, generateServiceTime()));
@@ -91,6 +95,7 @@ public class Simulation {
             }
         }
         eventList.remove(0);
+        return true;
     }
 
     /**
@@ -248,4 +253,9 @@ public class Simulation {
         return result / waitTimes.size();
     }
 
+    public void run(){
+        while(processNextEvent()){
+            //nothing needs to go here.
+        }
+    }
 }
