@@ -12,6 +12,9 @@ import java.util.Random;
  * Created by Jay on 5/3/2017.
  */
 public class Simulation {
+
+    private static final int MINSERVETIME = 10;
+    private static final int SERVETIMERANGE = 20;
     private int totalTime;
     private int currentSecond;
     private List<Event> eventList;
@@ -24,11 +27,14 @@ public class Simulation {
 
     private List<Integer> waitTimes;
 
+    private Random rand;
+
     public Simulation(int numLines, int numArrivals, int latestPossArrival){
         //this.totalTime = totalTime;
         this.currentSecond = 0;
         this.eventList = new ArrayList<>();
         this.lines = new ArrayList<>();
+        this.rand = new Random();
 
         this.timeSomeoneWaiting = 0;
         this.cumulativeWaitTime = 0;
@@ -118,28 +124,17 @@ public class Simulation {
 
     //Generating a number within 1 and latestPossArrival
     private int generateArrivalTime(int latestPossArrival){
-
-    /**
-        import java.util.Random;
-        Random rand = new Random();
-        int  n = rand.nextInt(50) + 1;
-        //50 is the maximum and the 1 is our minimum
-    **/
-
-    Random rand = new Random();
-    int n = rand.nextInt(latestPossArrival);
-
+        int n = rand.nextInt(latestPossArrival);
         return n;
     }
 
     //Generating service time
     private int generateServiceTime(){
-        return 50;
+        return (int)(rand.nextGaussian() * SERVETIMERANGE) + MINSERVETIME;
     }
 
     // Checking which line has lowest number of people
     private int pickLine(){
-
         int minPerson = lines.get(0).size(); // get number of people in  line 0.
         int lineNumber = 0;
 
@@ -176,14 +171,14 @@ public class Simulation {
         int temp;
         for (int i = 1; i < list.size(); i++) {
             for(int j = i ; j > 0 ; j--){
-                if(list[j] < list[j-1]){
-                    temp = list[j];
-                    list[j] = list[j-1];
-                    list[j-1] = temp;
+                if(list.get(j) < list.get(j-1)){
+                    temp = list.get(j);
+                    list.set(j, list.get(j-1));
+                    list.set(j-1, temp);
                 }
             }
         }
-        return list;
+        //return list;
 
     }
 
