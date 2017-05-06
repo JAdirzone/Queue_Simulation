@@ -129,8 +129,13 @@ public class Simulation {
     }
 
     //Generating service time
-    private int generateServiceTime(){
-        return (int)(rand.nextGaussian() * SERVETIMERANGE) + MINSERVETIME;
+    private int generateServiceTime(double min, double max, double skew, double bias){
+        double range = max - min;
+        double mid = min + range / 2.0;
+        double unit = rand.nextGaussian();
+        double biasFactor = Math.exp(bias);
+        double retval = mid +(range*biasFactor/biasFactor+Math.exp(-unit/skew)-0.5);
+        return (int) retval;
     }
 
     // Checking which line has lowest number of people
