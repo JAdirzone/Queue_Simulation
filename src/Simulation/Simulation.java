@@ -29,7 +29,13 @@ public class Simulation {
 
     private Random rand;
 
-    public Simulation(int numLines, int numArrivals, int latestPossArrival){
+    private double serveMin;
+    private double serveMax;
+    private double serveSkew;
+    private double serveBias;
+
+    public Simulation(int numLines, int numArrivals, int latestPossArrival,
+                      int serveMin, int serveMax, int serveSkew, int serveBias){
         //this.totalTime = totalTime;
         this.currentSecond = 0;
         this.eventList = new ArrayList<>();
@@ -39,6 +45,11 @@ public class Simulation {
         this.timeSomeoneWaiting = 0;
         this.cumulativeWaitTime = 0;
         this.timeBackedUp = 0;
+
+        this.serveMin = (double)serveMin;
+        this.serveMax = (double)serveMax;
+        this.serveSkew = (double)serveSkew;
+        this.serveBias = (double)serveBias;
 
         this.waitTimes = new ArrayList<>();
 
@@ -129,12 +140,12 @@ public class Simulation {
     }
 
     //Generating service time
-    private int generateServiceTime(double min, double max, double skew, double bias){
-        double range = max - min;
-        double mid = min + range / 2.0;
+    private int generateServiceTime(){
+        double range = serveMax - serveMin;
+        double mid = serveMin + range / 2.0;
         double unit = rand.nextGaussian();
-        double biasFactor = Math.exp(bias);
-        double retval = mid +(range*biasFactor/biasFactor+Math.exp(-unit/skew)-0.5);
+        double biasFactor = Math.exp(serveBias);
+        double retval = mid +(range*biasFactor/biasFactor+Math.exp(-unit/serveSkew)-0.5);
         return (int) retval;
     }
 
