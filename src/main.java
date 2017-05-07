@@ -1,5 +1,7 @@
 import Simulation.Simulation;
 
+import java.util.ArrayList;
+
 /**
  * Created by Jay on 5/6/2017.
  */
@@ -16,6 +18,11 @@ public class main {
         System.out.println("Cumulative Customer Wait " + sim.getCumulativeWaitTime());
         System.out.println("Percent Time Backed Up " + sim.getPercentTimeBackedUp());
 
+        ArrayList<Integer> testResults = new ArrayList<>();
+        for(int i = 0; i < 100; i++){
+            testResults.add(sim.generateServiceTime());
+        }
+        //Create file from testResults here.
 
     }
 }
