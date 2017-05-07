@@ -111,7 +111,7 @@ public class Simulation {
                 newFront(nextEvent.getType());
             }
         }
-        eventList.remove(0); //This is the problem. When a customer is
+        eventList.remove(0); //This is the problem. When a customer is add to this position than remove immediately
         return true;
     }
 
@@ -125,7 +125,7 @@ public class Simulation {
         //insertEvent(new Event(lines.get(lineNum - 1).peek().getServiceTime() + currentSecond, lineNum));
         Line tarLine = lines.get(lineNum - 1);
         Customer headCust = tarLine.peek();
-        int tarTime = headCust.getServiceTime();
+        int tarTime = headCust.getServiceTime() + currentSecond; //This may have been the fix!
         Event event = new Event(tarTime, lineNum);
         insertEvent(event);
     }
