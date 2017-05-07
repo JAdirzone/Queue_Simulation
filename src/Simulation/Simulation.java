@@ -37,7 +37,7 @@ public class Simulation {
         this.waitTimes = new ArrayList<>();
 
         ArrayList<Integer> arrivalTimes = generateArrivalTimes(numArrivals, latestPossArrival);
-        sort(arrivalTimes);
+        arrivalTimes = sort(arrivalTimes);
         for(int arrivalTime : arrivalTimes){
             eventList.add(new Event(arrivalTime, 0));
         }
@@ -114,15 +114,15 @@ public class Simulation {
     //Generating a number within 1 and latestPossArrival
     private int generateArrivalTime(int latestPossArrival){
 
-    /**
-        import java.util.Random;
-        Random rand = new Random();
-        int  n = rand.nextInt(50) + 1;
-        //50 is the maximum and the 1 is our minimum
-    **/
+        /**
+         import java.util.Random;
+         Random rand = new Random();
+         int  n = rand.nextInt(50) + 1;
+         //50 is the maximum and the 1 is our minimum
+         **/
 
-    Random rand = new Random();
-    int n = rand.nextInt(latestPossArrival);
+        Random rand = new Random();
+        int n = rand.nextInt(latestPossArrival);
 
         return n;
     }
@@ -151,30 +151,30 @@ public class Simulation {
     }
 
     // Sorting the list in order from low to high
-    private void sort(ArrayList<Integer> list){
+    private ArrayList sort(ArrayList<Integer> list){
 
         /**
-        public static int[] doInsertionSort(int[] input){
-            int temp;
-            for (int i = 1; i < input.length; i++) {
-                for(int j = i ; j > 0 ; j--){
-                    if(input[j] < input[j-1]){
-                        temp = input[j];
-                        input[j] = input[j-1];
-                        input[j-1] = temp;
-                    }
-                }
-            }
-            return input;
-        **/
+         public static int[] doInsertionSort(int[] input){
+         int temp;
+         for (int i = 1; i < input.length; i++) {
+         for(int j = i ; j > 0 ; j--){
+         if(input[j] < input[j-1]){
+         temp = input[j];
+         input[j] = input[j-1];
+         input[j-1] = temp;
+         }
+         }
+         }
+         return input;
+         **/
 
         int temp;
         for (int i = 1; i < list.size(); i++) {
             for(int j = i ; j > 0 ; j--){
-                if(list[j] < list[j-1]){
-                    temp = list[j];
-                    list[j] = list[j-1];
-                    list[j-1] = temp;
+                if(list.get(j).intValue() < list.get(j-1).intValue()){
+                    temp = list.get(j).intValue();
+                    list.set(j, list.get(j-1) );
+                    list.set(j-1, temp);
                 }
             }
         }
