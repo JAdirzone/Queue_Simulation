@@ -98,12 +98,14 @@ public class Simulation {
         }
         if(nextEvent.getType() == 0){//event is an arrival
             int targetLine = pickLine();
-            lines.get(targetLine).putInLine(new Customer(currentSecond, generateServiceTime()));
-            if(lines.get(targetLine).size() == 1){//The line was empty.
+            lines.get(targetLine - 1).putInLine(new Customer(currentSecond, generateServiceTime()));
+            if(lines.get(targetLine - 1).size() == 1){//The line was empty.
                 newFront(targetLine);
             }
         }else{//event is a customer being finished
-            Customer finishedCustomer = lines.get(nextEvent.getType() - 1).poll();
+            //System.out.println(lines.get(nextEvent.getType() - 1));
+            Customer finishedCustomer = lines.get(nextEvent.getType() - 1).poll(); //look up poll
+            System.out.println(finishedCustomer.getServiceTime());
             waitTimes.add(currentSecond - finishedCustomer.getEnterTime() - finishedCustomer.getServiceTime());
             if(!lines.get(nextEvent.getType() - 1).isCashierWaiting()){//There was someone waiting
                 newFront(nextEvent.getType());
@@ -120,7 +122,12 @@ public class Simulation {
      * @param lineNum
      */
     private void newFront(int lineNum){
-        insertEvent(new Event(lines.get(lineNum - 1).peek().getServiceTime() + currentSecond, lineNum));
+        //insertEvent(new Event(lines.get(lineNum - 1).peek().getServiceTime() + currentSecond, lineNum));
+        Line tarLine = lines.get(lineNum - 1);
+        Customer headCust = tarLine.peek();
+        int tarTime = headCust.getServiceTime();
+        Event event = new Event(tarTime, lineNum);
+        insertEvent(event);
     }
 
     private ArrayList<Integer> generateArrivalTimes(int numArrivals, int latestPossArrival){
@@ -143,7 +150,7 @@ public class Simulation {
         double mid = serveMin + range / 2.0;
         double unit = rand.nextGaussian();
         double biasFactor = Math.exp(serveBias);
-        double retval = mid +(range*biasFactor/biasFactor+Math.exp(-unit/serveSkew)-0.5);
+        double retval = mid +(range*(biasFactor/(biasFactor+Math.exp(-unit/serveSkew))-0.5));
         return (int) retval;
     }
 
@@ -197,14 +204,15 @@ public class Simulation {
     }
 
     private void insertEvent(Event event){
-        eventList.add(getInsertionIndex(event.getTime()), event);
+        int insInd = getInsertionIndex(event.getTime()); //For debugging only.
+        eventList.add(insInd, event);
     }
 
     private int getInsertionIndex(int eventTime){
         return getInsertionIndex(eventTime, 0, eventList.size() - 1);
     }
 
-    //TODO need to test.
+    //TODO Fix
     private int getInsertionIndex(int eventTime, int startIndex, int endIndex){
         //base cases
         if(startIndex == endIndex) {//The size of the part being looked at is one

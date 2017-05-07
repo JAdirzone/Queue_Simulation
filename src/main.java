@@ -5,8 +5,8 @@ import Simulation.Simulation;
  */
 public class main {
     public static void main(String[] args) {
-        Simulation sim = new Simulation(4, 60, 3600, 60,
-                300, 150, 30); //I chose these numbers random must change.
+        Simulation sim = new Simulation(4, 60, 3600, 10,
+                100, 1, 1); //I chose these numbers random must change.
         //add print statements here
         sim.run();
         System.out.println("Wait times: " + sim.getWaitTimes());
