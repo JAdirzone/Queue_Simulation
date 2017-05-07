@@ -13,8 +13,6 @@ import java.util.Random;
  */
 public class Simulation {
 
-    private static final int MINSERVETIME = 10;
-    private static final int SERVETIMERANGE = 20;
     private int totalTime;
     private int currentSecond;
     private List<Event> eventList;
@@ -29,7 +27,13 @@ public class Simulation {
 
     private Random rand;
 
-    public Simulation(int numLines, int numArrivals, int latestPossArrival){
+    private double serveMin;
+    private double serveMax;
+    private double serveSkew;
+    private double serveBias;
+
+    public Simulation(int numLines, int numArrivals, int latestPossArrival,
+                      int serveMin, int serveMax, int serveSkew, int serveBias){
         //this.totalTime = totalTime;
         this.currentSecond = 0;
         this.eventList = new ArrayList<>();
@@ -39,6 +43,11 @@ public class Simulation {
         this.timeSomeoneWaiting = 0;
         this.cumulativeWaitTime = 0;
         this.timeBackedUp = 0;
+
+        this.serveMin = (double)serveMin;
+        this.serveMax = (double)serveMax;
+        this.serveSkew = (double)serveSkew;
+        this.serveBias = (double)serveBias;
 
         this.waitTimes = new ArrayList<>();
 
@@ -117,7 +126,7 @@ public class Simulation {
     private ArrayList<Integer> generateArrivalTimes(int numArrivals, int latestPossArrival){
         ArrayList<Integer> result = new ArrayList<Integer>(numArrivals);
         for(int i = 0; i < numArrivals; i++){
-            generateArrivalTime(latestPossArrival);
+            result.add(generateArrivalTime(latestPossArrival));
         }
         return result;
     }
@@ -130,7 +139,12 @@ public class Simulation {
 
     //Generating service time
     private int generateServiceTime(){
-        return (int)(rand.nextGaussian() * SERVETIMERANGE) + MINSERVETIME;
+        double range = serveMax - serveMin;
+        double mid = serveMin + range / 2.0;
+        double unit = rand.nextGaussian();
+        double biasFactor = Math.exp(serveBias);
+        double retval = mid +(range*biasFactor/biasFactor+Math.exp(-unit/serveSkew)-0.5);
+        return (int) retval;
     }
 
     // Checking which line has lowest number of people
@@ -138,7 +152,7 @@ public class Simulation {
         int minPerson = lines.get(0).size(); // get number of people in  line 0.
         int lineNumber = 0;
 
-        for(int i = 1; i < lines.size(); i++){  // start from line 1.
+        for(int i = 0; i < lines.size(); i++){  // start from line 1 (the second line).
             int numPerson = lines.get(i).size();
             if(numPerson < minPerson)
             {
@@ -147,7 +161,7 @@ public class Simulation {
             }
         }
 
-        return lineNumber;
+        return lineNumber + 1; //The lines aren't number by their array index. Line 1 is lines[0].
     }
 
     // Sorting the list in order from low to high
@@ -246,6 +260,10 @@ public class Simulation {
             result += waitTime;
         }
         return result / waitTimes.size();
+    }
+
+    public List<Integer> getWaitTimes(){
+        return waitTimes;
     }
 
     public void run(){
