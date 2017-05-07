@@ -15,5 +15,7 @@ public class main {
         System.out.println("Time Customer Waiting " + sim.getTimeSomeoneWaiting());
         System.out.println("Cumulative Customer Wait " + sim.getCumulativeWaitTime());
         System.out.println("Percent Time Backed Up " + sim.getPercentTimeBackedUp());
+
+
     }
 }

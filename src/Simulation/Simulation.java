@@ -104,7 +104,7 @@ public class Simulation {
             }
         }else{//event is a customer being finished
             //System.out.println(lines.get(nextEvent.getType() - 1));
-            Customer finishedCustomer = lines.get(nextEvent.getType() - 1).poll(); //look up poll
+            Customer finishedCustomer = lines.get(nextEvent.getType() - 1).poll();
             System.out.println(finishedCustomer.getServiceTime());
             waitTimes.add(currentSecond - finishedCustomer.getEnterTime() - finishedCustomer.getServiceTime());
             if(!lines.get(nextEvent.getType() - 1).isCashierWaiting()){//There was someone waiting
@@ -145,7 +145,7 @@ public class Simulation {
     }
 
     //Generating service time
-    private int generateServiceTime(){
+    public int generateServiceTime(){ //Made public to aid debugging.
         double range = serveMax - serveMin;
         double mid = serveMin + range / 2.0;
         double unit = rand.nextGaussian();
