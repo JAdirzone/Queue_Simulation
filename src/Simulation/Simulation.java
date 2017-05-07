@@ -126,7 +126,7 @@ public class Simulation {
     private ArrayList<Integer> generateArrivalTimes(int numArrivals, int latestPossArrival){
         ArrayList<Integer> result = new ArrayList<Integer>(numArrivals);
         for(int i = 0; i < numArrivals; i++){
-            generateArrivalTime(latestPossArrival);
+            result.add(generateArrivalTime(latestPossArrival));
         }
         return result;
     }
@@ -152,7 +152,7 @@ public class Simulation {
         int minPerson = lines.get(0).size(); // get number of people in  line 0.
         int lineNumber = 0;
 
-        for(int i = 1; i < lines.size(); i++){  // start from line 1.
+        for(int i = 0; i < lines.size(); i++){  // start from line 1 (the second line).
             int numPerson = lines.get(i).size();
             if(numPerson < minPerson)
             {
@@ -161,7 +161,7 @@ public class Simulation {
             }
         }
 
-        return lineNumber;
+        return lineNumber + 1; //The lines aren't number by their array index. Line 1 is lines[0].
     }
 
     // Sorting the list in order from low to high

@@ -9,7 +9,7 @@ import java.util.LinkedList;
  */
 public class Line {
     private static final int BACKUP = 5;
-    private Queue<Customer> lineQueue;
+    private LinkedList<Customer> lineQueue;
 
     public Line(){
         this.lineQueue = new LinkedList<Customer>();
