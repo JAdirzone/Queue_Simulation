@@ -13,8 +13,6 @@ import java.util.Random;
  */
 public class Simulation {
 
-    private static final int MINSERVETIME = 10;
-    private static final int SERVETIMERANGE = 20;
     private int totalTime;
     private int currentSecond;
     private List<Event> eventList;
@@ -262,6 +260,10 @@ public class Simulation {
             result += waitTime;
         }
         return result / waitTimes.size();
+    }
+
+    public List<Integer> getWaitTimes(){
+        return waitTimes;
     }
 
     public void run(){
