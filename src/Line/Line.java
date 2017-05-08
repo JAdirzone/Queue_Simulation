@@ -4,9 +4,7 @@ import java.util.*;
 import java.util.LinkedList;
 //import java.util.Queue;
 
-/**
- * Created by Jay on 5/3/2017.
- */
+
 public class Line {
     private static final int BACKUP = 5;
     private LinkedList<Customer> lineQueue;

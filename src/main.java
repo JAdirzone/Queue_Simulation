@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class main {
     public static void main(String[] args) throws IOException {
         Simulation sim = new Simulation(8, 200, 3600, 20,
-                400, 2.1, -1);
+                400, 2.1, -1, .75);
         //add print statements here
         sim.run();
         System.out.println("Wait times: " + sim.getWaitTimes());
@@ -37,7 +37,7 @@ public class main {
            // writer.close();
         //}
 
-
+        System.out.println(3.0 / 2);
 
 
 
