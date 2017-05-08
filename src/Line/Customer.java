@@ -1,8 +1,6 @@
 package Line;
 
-/**
- * Created by Jay on 5/3/2017.
- */
+
 public class Customer {
     private int enterTime;  //The second when this customer entered the line.
     private int serviceTime;//The number of seconds which this customer was at the register.
