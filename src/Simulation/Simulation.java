@@ -173,21 +173,6 @@ public class Simulation {
     // Sorting the list in order from low to high
     private void sort(ArrayList<Integer> list){
 
-        /**
-        public static int[] doInsertionSort(int[] input){
-            int temp;
-            for (int i = 1; i < input.length; i++) {
-                for(int j = i ; j > 0 ; j--){
-                    if(input[j] < input[j-1]){
-                        temp = input[j];
-                        input[j] = input[j-1];
-                        input[j-1] = temp;
-                    }
-                }
-            }
-            return input;
-        **/
-
         int temp;
         for (int i = 1; i < list.size(); i++) {
             for(int j = i ; j > 0 ; j--){
@@ -211,7 +196,6 @@ public class Simulation {
         return getInsertionIndex(eventTime, 0, eventList.size() - 1);
     }
 
-    //TODO Fix
     private int getInsertionIndex(int eventTime, int startIndex, int endIndex){
         //base cases
         if(startIndex == endIndex) {//The size of the part being looked at is one
