@@ -8,9 +8,6 @@ import java.util.List;
 
 import java.util.Random;
 
-/**
- * Created by Jay on 5/3/2017.
- */
 public class Simulation {
 
     private int totalTime;
@@ -32,9 +29,11 @@ public class Simulation {
     private double serveSkew;
     private double serveBias;
 
+    private double cashierMod;
+
     public Simulation(int numLines, int numArrivals, int latestPossArrival,
-                      int serveMin, int serveMax, double serveSkew, double serveBias){
-        this.totalTime = totalTime;
+                      int serveMin, int serveMax, double serveSkew, double serveBias, double cashierMod){
+        this.totalTime = latestPossArrival;
         this.currentSecond = 0;
         this.eventList = new ArrayList<>();
         this.lines = new ArrayList<>();
@@ -48,6 +47,8 @@ public class Simulation {
         this.serveMax = (double)serveMax;
         this.serveSkew = (double)serveSkew;
         this.serveBias = (double)serveBias;
+
+        this.cashierMod = cashierMod;
 
         this.waitTimes = new ArrayList<>();
 
@@ -98,14 +99,14 @@ public class Simulation {
         }
         if(nextEvent.getType() == 0){//event is an arrival
             int targetLine = pickLine();
-            lines.get(targetLine - 1).putInLine(new Customer(currentSecond, generateServiceTime()));
+            lines.get(targetLine - 1).putInLine(new Customer(currentSecond, (int)(generateServiceTime() * cashierMod)));
             if(lines.get(targetLine - 1).size() == 1){//The line was empty.
                 newFront(targetLine);
             }
         }else{//event is a customer being finished
             //System.out.println(lines.get(nextEvent.getType() - 1));
             Customer finishedCustomer = lines.get(nextEvent.getType() - 1).poll();
-            System.out.println(finishedCustomer.getServiceTime());
+            //System.out.println(finishedCustomer.getServiceTime());
             waitTimes.add(currentSecond - finishedCustomer.getEnterTime() - finishedCustomer.getServiceTime());
             if(!lines.get(nextEvent.getType() - 1).isCashierWaiting()){//There was someone waiting
                 newFront(nextEvent.getType());
@@ -218,17 +219,17 @@ public class Simulation {
         //base cases
         if(startIndex == endIndex) {//The size of the part being looked at is one
             if(eventTime <= eventList.get(startIndex).getTime()){
-                System.out.println(startIndex);
+                //System.out.println(startIndex);
                 return startIndex;
             }
-            System.out.println(startIndex + 1);
+            //System.out.println(startIndex + 1);
             return startIndex + 1;
         }
         int halfSize = (endIndex - startIndex + 1) / 2;
         int secondCheck = startIndex + halfSize;
         int firstCheck = secondCheck - 1;
         if(eventTime >= eventList.get(firstCheck).getTime() && eventTime <= eventList.get(secondCheck).getTime()){
-            System.out.println(secondCheck);
+            //System.out.println(secondCheck);
             return secondCheck;
         }
         //recursive calls here
@@ -244,6 +245,10 @@ public class Simulation {
 
     public int getTimeCashierWaiting() {
         return timeCashierWaiting;
+    }
+
+    public double getPercentTimeCashierWaiting(){
+        return (double) timeCashierWaiting / (totalTime * lines.size());
     }
 
     public int getTimeBackedUp() {
@@ -262,16 +267,27 @@ public class Simulation {
         return cumulativeWaitTime;
     }
 
-    public int getPercentTimeBackedUp(){
-        return timeBackedUp / (totalTime + lines.size());
+    public double getPercentTimeBackedUp(){
+        return (double)timeBackedUp / (totalTime * lines.size());
     }
 
-    public int getAverageWaitTime(){
+    public double getPercentTimeCustomWaiting(){
+        //System.out.println("TOT" + totalTime);
+        return (double)timeSomeoneWaiting / (totalTime * lines.size());
+    }
+
+    public int getNumCustomFinished(){
+        return waitTimes.size();
+    }
+
+    public double getAverageWaitTime(){
         int result = 0;
         for(int waitTime : waitTimes){
             result += waitTime;
+            //System.out.println("TEST " + result);
+            //System.out.println("Test2 " + waitTimes.size());
         }
-        return result / waitTimes.size();
+        return (double)result / waitTimes.size();
     }
 
     public List<Integer> getWaitTimes(){
