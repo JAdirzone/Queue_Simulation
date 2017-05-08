@@ -33,8 +33,8 @@ public class Simulation {
     private double serveBias;
 
     public Simulation(int numLines, int numArrivals, int latestPossArrival,
-                      int serveMin, int serveMax, int serveSkew, int serveBias){
-        //this.totalTime = totalTime;
+                      int serveMin, int serveMax, double serveSkew, double serveBias){
+        this.totalTime = totalTime;
         this.currentSecond = 0;
         this.eventList = new ArrayList<>();
         this.lines = new ArrayList<>();
