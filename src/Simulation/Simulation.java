@@ -104,9 +104,7 @@ public class Simulation {
                 newFront(targetLine);
             }
         }else{//event is a customer being finished
-            //System.out.println(lines.get(nextEvent.getType() - 1));
             Customer finishedCustomer = lines.get(nextEvent.getType() - 1).poll();
-            //System.out.println(finishedCustomer.getServiceTime());
             waitTimes.add(currentSecond - finishedCustomer.getEnterTime() - finishedCustomer.getServiceTime());
             if(!lines.get(nextEvent.getType() - 1).isCashierWaiting()){//There was someone waiting
                 newFront(nextEvent.getType());
@@ -210,7 +208,6 @@ public class Simulation {
     }
 
     private int getInsertionIndex(int eventTime){
-        //System.out.println(getInsertionIndex(eventTime, 0, eventList.size() - 1));
         return getInsertionIndex(eventTime, 0, eventList.size() - 1);
     }
 
@@ -219,17 +216,14 @@ public class Simulation {
         //base cases
         if(startIndex == endIndex) {//The size of the part being looked at is one
             if(eventTime <= eventList.get(startIndex).getTime()){
-                //System.out.println(startIndex);
                 return startIndex;
             }
-            //System.out.println(startIndex + 1);
             return startIndex + 1;
         }
         int halfSize = (endIndex - startIndex + 1) / 2;
         int secondCheck = startIndex + halfSize;
         int firstCheck = secondCheck - 1;
         if(eventTime >= eventList.get(firstCheck).getTime() && eventTime <= eventList.get(secondCheck).getTime()){
-            //System.out.println(secondCheck);
             return secondCheck;
         }
         //recursive calls here
@@ -272,7 +266,6 @@ public class Simulation {
     }
 
     public double getPercentTimeCustomWaiting(){
-        //System.out.println("TOT" + totalTime);
         return (double)timeSomeoneWaiting / (totalTime * lines.size());
     }
 
@@ -284,8 +277,6 @@ public class Simulation {
         int result = 0;
         for(int waitTime : waitTimes){
             result += waitTime;
-            //System.out.println("TEST " + result);
-            //System.out.println("Test2 " + waitTimes.size());
         }
         return (double)result / waitTimes.size();
     }

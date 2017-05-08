@@ -1,8 +1,6 @@
 package Simulation;
 
-/**
- * Created by Jay on 5/3/2017.
- */
+
 public class Event {
     private int time;   //The time this event will happen.
 
