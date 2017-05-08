@@ -6,7 +6,7 @@ import java.util.LinkedList;
 
 
 public class Line {
-    private static final int BACKUP = 5;
+    private static final int BACKUP = 4;
     private LinkedList<Customer> lineQueue;
 
     public Line(){

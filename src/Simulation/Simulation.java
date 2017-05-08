@@ -33,7 +33,7 @@ public class Simulation {
 
     public Simulation(int numLines, int numArrivals, int latestPossArrival,
                       int serveMin, int serveMax, double serveSkew, double serveBias, double cashierMod){
-        this.totalTime = totalTime;
+        this.totalTime = latestPossArrival;
         this.currentSecond = 0;
         this.eventList = new ArrayList<>();
         this.lines = new ArrayList<>();
@@ -247,6 +247,10 @@ public class Simulation {
         return timeCashierWaiting;
     }
 
+    public double getPercentTimeCashierWaiting(){
+        return (double) timeCashierWaiting / (totalTime * lines.size());
+    }
+
     public int getTimeBackedUp() {
         return timeBackedUp;
     }
@@ -263,16 +267,25 @@ public class Simulation {
         return cumulativeWaitTime;
     }
 
-    public int getPercentTimeBackedUp(){
-        return timeBackedUp / (totalTime + lines.size());
+    public double getPercentTimeBackedUp(){
+        return (double)timeBackedUp / (totalTime * lines.size());
+    }
+
+    public double getPercentTimeCustomWaiting(){
+        //System.out.println("TOT" + totalTime);
+        return (double)timeSomeoneWaiting / (totalTime * lines.size());
+    }
+
+    public int getNumCustomFinished(){
+        return waitTimes.size();
     }
 
     public double getAverageWaitTime(){
         int result = 0;
         for(int waitTime : waitTimes){
             result += waitTime;
-            System.out.println("TEST " + result);
-            System.out.println("Test2 " + waitTimes.size());
+            //System.out.println("TEST " + result);
+            //System.out.println("Test2 " + waitTimes.size());
         }
         return (double)result / waitTimes.size();
     }
